@@ -36,38 +36,62 @@ export class UltraMsgClient {
       console.log('📤 Enviando mensaje a UltraMsg...');
       console.log('URL:', url);
       console.log('To (hardcodeado para pruebas):', to);
-      console.log('To original:', to);
       console.log('Token:', this.token.substring(0, 10) + '...');
       console.log('Body length:', body.length);
       console.log('Body preview:', body.substring(0, 100) + '...');
       
       // UltraMsg requiere form-urlencoded según su documentación
+      console.log('🔧 Construyendo parámetros...');
       const params = new URLSearchParams();
       params.append('token', this.token);
       params.append('to', to);
       params.append('body', body);
+      const paramsString = params.toString();
+      console.log('✅ Parámetros construidos, longitud:', paramsString.length);
+      console.log('📋 Parámetros preview:', paramsString.substring(0, 200) + '...');
       
+      console.log('🌐 Haciendo petición POST a UltraMsg...');
       const response = await axios.post(
         url,
-        params.toString(),
+        paramsString,
         {
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
           },
+          timeout: 30000, // 30 segundos de timeout
         }
       );
+      console.log('✅ Petición completada, status:', response.status);
       
       console.log('✅ Mensaje enviado exitosamente');
       console.log('Respuesta de UltraMsg:', JSON.stringify(response.data, null, 2));
       return response.data;
     } catch (error: any) {
-      console.error('❌ Error enviando mensaje de texto:');
-      console.error('Status:', error.response?.status);
-      console.error('Status Text:', error.response?.statusText);
-      console.error('Response Data:', JSON.stringify(error.response?.data, null, 2));
-      console.error('Error Message:', error.message);
-      console.error('Request URL:', error.config?.url);
-      console.error('Request Data:', error.config?.data);
+      console.error('❌❌❌ Error enviando mensaje de texto:');
+      console.error('Error type:', error.constructor?.name || typeof error);
+      console.error('Error message:', error.message);
+      console.error('Error code:', error.code);
+      
+      if (error.response) {
+        console.error('HTTP Status:', error.response.status);
+        console.error('Status Text:', error.response.statusText);
+        console.error('Response Headers:', JSON.stringify(error.response.headers, null, 2));
+        console.error('Response Data:', JSON.stringify(error.response.data, null, 2));
+      } else if (error.request) {
+        console.error('No se recibió respuesta del servidor');
+        console.error('Request config:', JSON.stringify({
+          url: error.config?.url,
+          method: error.config?.method,
+          headers: error.config?.headers,
+          data: error.config?.data?.substring(0, 200),
+        }, null, 2));
+      } else {
+        console.error('Error al configurar la petición:', error.message);
+      }
+      
+      if (error.stack) {
+        console.error('Stack trace:', error.stack);
+      }
       
       // Si falla, intentar con formato JSON
       if (error.response?.status === 400 || error.response?.status === 401 || error.response?.status === 500) {
