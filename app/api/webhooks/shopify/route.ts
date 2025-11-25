@@ -97,25 +97,32 @@ async function processOrderAsync(order: ShopifyOrder) {
     const messageText = buildWhatsAppMessage(processedOrder, STORE_NAME);
     
     // Inicializar cliente de UltraMsg
+    console.log('🔧 Inicializando cliente UltraMsg...');
     const ultramsgClient = new UltraMsgClient();
-    console.log("11111500")
+    console.log('✅ Cliente UltraMsg inicializado');
+    console.log('📱 Teléfono del cliente:', processedOrder.customerPhone);
+    console.log('🖼️ Tiene imagen:', !!processedOrder.productImage);
+    console.log('📝 Mensaje construido, longitud:', messageText.length);
+    
     // Enviar mensaje con imagen si está disponible
     if (processedOrder.productImage) {
-      console.log(`Enviando mensaje con imagen a ${processedOrder.customerPhone}`);
-      await ultramsgClient.sendImageMessage(
+      console.log(`📤 Enviando mensaje con imagen a ${processedOrder.customerPhone}`);
+      const result = await ultramsgClient.sendImageMessage(
         processedOrder.customerPhone,
         processedOrder.productImage,
         messageText
       );
+      console.log('✅ Resultado del envío con imagen:', JSON.stringify(result, null, 2));
     } else {
-      console.log(`Enviando mensaje de texto a ${processedOrder.customerPhone}`);
-      await ultramsgClient.sendTextMessage(
+      console.log(`📤 Enviando mensaje de texto a ${processedOrder.customerPhone}`);
+      const result = await ultramsgClient.sendTextMessage(
         processedOrder.customerPhone,
         messageText
       );
+      console.log('✅ Resultado del envío de texto:', JSON.stringify(result, null, 2));
     }
 
-    console.log(`✅ Mensaje enviado exitosamente para la orden ${processedOrder.orderNumber}`);
+    console.log(`✅✅✅ Mensaje enviado exitosamente para la orden ${processedOrder.orderNumber}`);
   } catch (error: any) {
     console.error('❌ Error procesando orden asíncronamente:');
     console.error('Error type:', error.constructor.name);
