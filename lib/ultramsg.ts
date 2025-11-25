@@ -30,6 +30,11 @@ export class UltraMsgClient {
     const url = `${this.apiUrl}/${this.instanceId}/messages/chat`;
     
     try {
+        console.info('url', url);
+        console.info('token', this.token);
+        console.info('to', to);
+        console.info('body', body);
+        console.info('--------------------------------');
       const response = await axios.post(url, {
         token: this.token,
         to,
