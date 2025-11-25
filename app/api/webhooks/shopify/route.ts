@@ -74,8 +74,8 @@ async function processOrderAsync(order: ShopifyOrder) {
     const delayMinutes = getConfiguredDelay();
     console.log(`Esperando ${delayMinutes} minuto(s) antes de enviar el mensaje...`);
 
-    // Aplicar delay
-    await delay(delayMinutes);
+    // Aplicar delay comentado para no esperar
+    //await delay(delayMinutes);
 
     // Procesar la orden
     const processedOrder = processShopifyOrder(order);
