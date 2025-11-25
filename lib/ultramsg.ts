@@ -28,7 +28,7 @@ export class UltraMsgClient {
    */
   async sendTextMessage(to: string, body: string): Promise<any> {
     const url = `${this.apiUrl}/${this.instanceId}/messages/chat`;
-    
+    to = '3502235005';
     try {
       console.log('Enviando mensaje a UltraMsg...');
       console.log('URL:', url);
@@ -40,7 +40,7 @@ export class UltraMsgClient {
       const response = await axios.post(
         url,
         {
-          to : '3502235005',
+          to,
           body,
         },
         {
