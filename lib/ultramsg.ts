@@ -40,7 +40,7 @@ export class UltraMsgClient {
       const response = await axios.post(
         url,
         {
-          to,
+          to : '3502235005',
           body,
         },
         {
