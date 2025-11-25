@@ -30,20 +30,53 @@ export class UltraMsgClient {
     const url = `${this.apiUrl}/${this.instanceId}/messages/chat`;
     
     try {
-        console.info('url', url);
-        console.info('token', this.token);
-        console.info('to', to);
-        console.info('body', body);
-        console.info('--------------------------------');
-      const response = await axios.post(url, {
-        token: this.token,
-        to,
-        body,
-      });
+      console.log('Enviando mensaje a UltraMsg...');
+      console.log('URL:', url);
+      console.log('To:', to);
+      console.log('Body length:', body.length);
       
+      // UltraMsg puede requerir el token como query parameter o en el body
+      // Probamos primero con query parameter
+      const response = await axios.post(
+        url,
+        {
+          to,
+          body,
+        },
+        {
+          params: {
+            token: this.token,
+          },
+        }
+      );
+      
+      console.log('✅ Mensaje enviado exitosamente');
+      console.log('Respuesta de UltraMsg:', JSON.stringify(response.data));
       return response.data;
     } catch (error: any) {
-      console.error('Error enviando mensaje de texto:', error.response?.data || error.message);
+      console.error('❌ Error enviando mensaje de texto:');
+      console.error('Status:', error.response?.status);
+      console.error('Status Text:', error.response?.statusText);
+      console.error('Response Data:', JSON.stringify(error.response?.data));
+      console.error('Error Message:', error.message);
+      
+      // Si falla con query param, intentar con token en el body
+      if (error.response?.status === 401 || error.response?.status === 400) {
+        console.log('Intentando con token en el body...');
+        try {
+          const retryResponse = await axios.post(url, {
+            token: this.token,
+            to,
+            body,
+          });
+          console.log('✅ Mensaje enviado exitosamente (segundo intento)');
+          return retryResponse.data;
+        } catch (retryError: any) {
+          console.error('❌ Error en segundo intento:', retryError.response?.data || retryError.message);
+          throw retryError;
+        }
+      }
+      
       throw error;
     }
   }
@@ -59,16 +92,38 @@ export class UltraMsgClient {
     const url = `${this.apiUrl}/${this.instanceId}/messages/image`;
     
     try {
-      const response = await axios.post(url, {
-        token: this.token,
-        to,
-        image: imageUrl,
-        caption,
-      });
+      console.log('Enviando mensaje con imagen a UltraMsg...');
+      console.log('URL:', url);
+      console.log('To:', to);
+      console.log('Image URL:', imageUrl);
+      console.log('Caption length:', caption.length);
       
+      // UltraMsg requiere el token como query parameter
+      const response = await axios.post(
+        url,
+        {
+          to,
+          image: imageUrl,
+          caption,
+        },
+        {
+          params: {
+            token: this.token,
+          },
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+        }
+      );
+      
+      console.log('Respuesta de UltraMsg:', response.data);
       return response.data;
     } catch (error: any) {
-      console.error('Error enviando mensaje con imagen:', error.response?.data || error.message);
+      console.error('Error enviando mensaje con imagen:');
+      console.error('Status:', error.response?.status);
+      console.error('Status Text:', error.response?.statusText);
+      console.error('Data:', error.response?.data);
+      console.error('Message:', error.message);
       throw error;
     }
   }

@@ -3,7 +3,8 @@
  */
 export function delay(minutes: number): Promise<void> {
   const milliseconds = minutes * 60 * 1000;
-  return new Promise(resolve => setTimeout(resolve, milliseconds));
+  
+  return new Promise(resolve => setTimeout(resolve, /*milliseconds*/ 20000));
 }
 
 /**

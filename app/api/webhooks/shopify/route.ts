@@ -5,7 +5,11 @@ import { buildWhatsAppMessage } from '@/lib/message-builder';
 import { UltraMsgClient } from '@/lib/ultramsg';
 import { delay, getConfiguredDelay } from '@/lib/delay';
 
-const SHOPIFY_WEBHOOK_SECRET = '41fe5a71c6fc5c1f35b740fb678cedb236c346a0a613a0e4b288093bc79cb659'//process.env.SHOPIFY_WEBHOOK_SECRET;
+// Configurar para evitar timeout en Vercel (máximo 60 segundos para funciones gratuitas)
+export const maxDuration = 60;
+export const dynamic = 'force-dynamic';
+
+const SHOPIFY_WEBHOOK_SECRET = '41fe5a71c6fc5c1f35b740fb678cedb236c346a0a613a0e4b288093bc79cb659'; // TODO: Mover a variable de entorno
 const STORE_NAME = process.env.STORE_NAME || 'Mi Tienda';
 
 /**
@@ -50,10 +54,13 @@ export async function POST(request: NextRequest) {
     console.log(`Nueva orden recibida: ${order.name} (ID: ${order.id})`);
 
     // Procesar la orden de forma asíncrona
-    // No esperamos a que se complete para responder a Shopify
-    processOrderAsync(order);
+    // IMPORTANTE: En Vercel, si respondemos antes, la función puede terminar
+    // Por eso ejecutamos sin await pero con manejo de errores mejorado
+    processOrderAsync(order).catch((error) => {
+      console.error('Error crítico en processOrderAsync:', error);
+    });
 
-    // Responder inmediatamente a Shopify
+    // Responder inmediatamente a Shopify para evitar timeout
     return NextResponse.json({ received: true });
   } catch (error: any) {
     console.error('Error procesando webhook de Shopify:', error);
@@ -74,8 +81,8 @@ async function processOrderAsync(order: ShopifyOrder) {
     const delayMinutes = getConfiguredDelay();
     console.log(`Esperando ${delayMinutes} minuto(s) antes de enviar el mensaje...`);
 
-    // Aplicar delay comentado para no esperar
-    //await delay(delayMinutes);
+    // Aplicar delay
+    await delay(delayMinutes);
 
     // Procesar la orden
     const processedOrder = processShopifyOrder(order);
@@ -107,9 +114,18 @@ async function processOrderAsync(order: ShopifyOrder) {
       );
     }
 
-    console.log(`Mensaje enviado exitosamente para la orden ${processedOrder.orderNumber}`);
+    console.log(`✅ Mensaje enviado exitosamente para la orden ${processedOrder.orderNumber}`);
   } catch (error: any) {
-    console.error('Error procesando orden asíncronamente:', error);
+    console.error('❌ Error procesando orden asíncronamente:');
+    console.error('Error type:', error.constructor.name);
+    console.error('Error message:', error.message);
+    console.error('Error stack:', error.stack);
+    if (error.response) {
+      console.error('HTTP Status:', error.response.status);
+      console.error('Response Data:', JSON.stringify(error.response.data));
+    }
+    // Re-lanzar el error para que Vercel lo registre
+    throw error;
   }
 }
 
