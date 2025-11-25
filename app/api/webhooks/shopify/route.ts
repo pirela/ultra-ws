@@ -5,7 +5,7 @@ import { buildWhatsAppMessage } from '@/lib/message-builder';
 import { UltraMsgClient } from '@/lib/ultramsg';
 import { delay, getConfiguredDelay } from '@/lib/delay';
 
-const SHOPIFY_WEBHOOK_SECRET = process.env.SHOPIFY_WEBHOOK_SECRET;
+const SHOPIFY_WEBHOOK_SECRET = '41fe5a71c6fc5c1f35b740fb678cedb236c346a0a613a0e4b288093bc79cb659'//process.env.SHOPIFY_WEBHOOK_SECRET;
 const STORE_NAME = process.env.STORE_NAME || 'Mi Tienda';
 
 /**

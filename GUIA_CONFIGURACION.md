@@ -53,12 +53,19 @@ ULTRAMSG_WEBHOOK_URL=https://tu-dominio.com/api/webhooks/ultramsg
 4. **Configurar el Webhook:**
    - **URL del webhook:** 
      ```
-     https://tu-dominio.com/api/webhooks/shopify
+     https://tu-proyecto.vercel.app/api/webhooks/shopify
      ```
-     ⚠️ **Importante:** Si estás desarrollando localmente, usa [ngrok](https://ngrok.com/) para exponer tu servidor local:
-     ```
-     https://tu-id-ngrok.ngrok.io/api/webhooks/shopify
-     ```
+     ⚠️ **Importante:** 
+     - Reemplaza `tu-proyecto.vercel.app` con el dominio real que Vercel te dio al desplegar
+     - Ejemplo: Si tu proyecto en Vercel es `shopify-whatsapp-abc123.vercel.app`, entonces la URL sería:
+       ```
+       https://shopify-whatsapp-abc123.vercel.app/api/webhooks/shopify
+       ```
+     - Si configuraste un dominio personalizado en Vercel, usa ese dominio
+     - Si estás desarrollando localmente, usa [ngrok](https://ngrok.com/) para exponer tu servidor local:
+       ```
+       https://tu-id-ngrok.ngrok.io/api/webhooks/shopify
+       ```
    
    - **Formato:** Selecciona **JSON**
    
@@ -103,10 +110,17 @@ curl -X POST "https://tu-tienda.myshopify.com/admin/api/2024-01/webhooks.json" \
 2. **Configurar Webhook:**
    - Ve a la sección de **Webhooks** o **Configuración**
    - Busca la opción para configurar webhooks de mensajes entrantes
-   - Ingresa la siguiente URL:
+   - Ingresa la siguiente URL (usa el dominio de Vercel donde desplegaste tu app):
      ```
-     https://tu-dominio.com/api/webhooks/ultramsg
+     https://tu-proyecto.vercel.app/api/webhooks/ultramsg
      ```
+     ⚠️ **Importante:** 
+     - Reemplaza `tu-proyecto.vercel.app` con el dominio real que Vercel te dio
+     - Ejemplo: Si tu proyecto en Vercel es `shopify-whatsapp-abc123.vercel.app`, entonces la URL sería:
+       ```
+       https://shopify-whatsapp-abc123.vercel.app/api/webhooks/ultramsg
+       ```
+     - Si configuraste un dominio personalizado en Vercel, usa ese dominio en su lugar
    - Guarda la configuración
 
 3. **Verificar Instancia:**
@@ -172,12 +186,18 @@ export const productImageMap: Record<string, string> = {
 
 1. **Conecta tu repositorio a Vercel:**
    - Ve a [vercel.com](https://vercel.com)
-   - Importa tu proyecto
-   - Configura las variables de entorno en el dashboard de Vercel
+   - Importa tu proyecto desde GitHub/GitLab/Bitbucket
+   - Configura las variables de entorno en el dashboard de Vercel (Settings → Environment Variables)
 
 2. **Obtén la URL de producción:**
-   - Vercel te dará una URL como: `https://tu-proyecto.vercel.app`
-   - Actualiza esta URL en tus webhooks de Shopify y UltraMsg
+   - Después del despliegue, Vercel te dará una URL automáticamente
+   - La encontrarás en el dashboard de tu proyecto, algo como: `https://tu-proyecto-abc123.vercel.app`
+   - **Esta es la URL que debes usar** en los webhooks de Shopify y UltraMsg
+   - Ejemplo completo:
+     - Webhook de Shopify: `https://tu-proyecto-abc123.vercel.app/api/webhooks/shopify`
+     - Webhook de UltraMsg: `https://tu-proyecto-abc123.vercel.app/api/webhooks/ultramsg`
+   
+   ⚠️ **Nota:** Si configuraste un dominio personalizado en Vercel, usa ese dominio en lugar del `.vercel.app`
 
 ### Opción B: Otra Plataforma
 

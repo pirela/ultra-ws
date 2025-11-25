@@ -91,7 +91,7 @@ Puedes usar el endpoint de prueba para verificar tus credenciales:
 curl -X POST https://tu-dominio.com/api/send-message \
   -H "Content-Type: application/json" \
   -d '{
-    "to": "+573001234567",
+    "to": "+573058376058",
     "message": "Mensaje de prueba"
   }'
 ```
