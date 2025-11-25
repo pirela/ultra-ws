@@ -58,7 +58,7 @@ export class UltraMsgClient {
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
           },
-          timeout: 30000, // 30 segundos de timeout
+          //timeout: 50000, // 50 segundos de timeout
         }
       );
       console.log('✅ Petición completada, status:', response.status);
