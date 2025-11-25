@@ -1,3 +1,4 @@
+import crypto from 'crypto';
 import { ShopifyOrder, ProcessedOrder } from '@/types';
 import { getProductImage } from './product-mapping';
 import { normalizePhoneNumber } from './message-builder';
@@ -74,7 +75,6 @@ export function verifyShopifyWebhook(
   signature: string,
   secret: string
 ): boolean {
-  const crypto = require('crypto');
   const hmac = crypto.createHmac('sha256', secret);
   const hash = hmac.update(body, 'utf8').digest('base64');
   return hash === signature;
