@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
         { status: 500 }
       );
     }
-
+    console.log("111111")
     // Obtener el body como texto para verificar la firma
     const body = await request.text();
     const signature = request.headers.get('x-shopify-hmac-sha256');
@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
 
     // Parsear la orden
     const order: ShopifyOrder = JSON.parse(body);
-
+    console.log("111112")
     // Validar que sea una orden nueva
     if (!order.id || !order.line_items || order.line_items.length === 0) {
       return NextResponse.json(
@@ -82,22 +82,23 @@ async function processOrderAsync(order: ShopifyOrder) {
     console.log(`Esperando ${delayMinutes} minuto(s) antes de enviar el mensaje...`);
 
     // Aplicar delay
-    await delay(delayMinutes);
+    //await delay(delayMinutes);
 
     // Procesar la orden
     const processedOrder = processShopifyOrder(order);
 
     if (!processedOrder) {
+        console.log("11111300")
       console.error('No se pudo procesar la orden:', order.id);
       return;
     }
 
     // Construir el mensaje
     const messageText = buildWhatsAppMessage(processedOrder, STORE_NAME);
-
+    
     // Inicializar cliente de UltraMsg
     const ultramsgClient = new UltraMsgClient();
-
+    console.log("11111500")
     // Enviar mensaje con imagen si está disponible
     if (processedOrder.productImage) {
       console.log(`Enviando mensaje con imagen a ${processedOrder.customerPhone}`);
