@@ -12,6 +12,9 @@
  */
 
 export const productImageMap: Record<string, string> = {
+  "Pulpo Interactivo Led Musical Bailarín 🧒🏻 🎶": "https://wendysoutle.shop/cdn/shop/files/pulpo4.webp",
+  "Proyector Palante DinoEgg Galaxia con Control 🌌" :"https://wendysoutle.shop/cdn/shop/files/ChatGPTImage21nov2025_03_53_22p.m..webp",
+  "Vanity Espejo Led Para Carro Recargable 🪞 💗": "https://wendysoutle.shop/cdn/shop/files/portada01.webp"
   // Ejemplo: 'SKU-DEL-PRODUCTO': 'https://url-de-la-imagen.jpg',
   // Ejemplo: 'NOMBRE-DEL-PRODUCTO': 'https://url-de-la-imagen.jpg',
 }

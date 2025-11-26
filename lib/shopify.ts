@@ -49,8 +49,8 @@ export function processShopifyOrder(order: ShopifyOrder): ProcessedOrder | null 
       addr.address2,
       addr.city,
       addr.province,
-      addr.country,
-      addr.zip,
+      //addr.country,
+      //addr.zip,
     ].filter(Boolean);
     
     shippingAddress = parts.join(', ');
