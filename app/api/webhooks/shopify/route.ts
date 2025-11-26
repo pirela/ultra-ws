@@ -104,6 +104,8 @@ async function processOrderAsync(order: ShopifyOrder) {
     console.log('✅ Cliente UltraMsg inicializado');
     console.log('📱 Teléfono del cliente:', processedOrder.customerPhone);
     console.log('🖼️ Tiene imagen:', !!processedOrder.productImage);
+    console.log('🖼️ Tiene imagen2:', processedOrder.productImage);
+    console.log('🖼️ Tiene imagen3:', JSON.stringify(processedOrder, null, 2));
     console.log('📝 Mensaje construido, longitud:', messageText.length);
     
     // Enviar mensaje con imagen si está disponible
