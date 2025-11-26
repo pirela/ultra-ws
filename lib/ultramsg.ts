@@ -58,10 +58,16 @@ export class UltraMsgClient {
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
           },
-          //timeout: 50000, // 50 segundos de timeout
+          timeout: 50000, // 50 segundos de timeout (menos que el maxDuration de 60s)
+          validateStatus: (status) => status < 500, // No lanzar error para códigos 4xx
         }
       );
       console.log('✅ Petición completada, status:', response.status);
+      
+      // Verificar si la respuesta indica éxito
+      if (response.status >= 400) {
+        throw new Error(`UltraMsg retornó status ${response.status}: ${JSON.stringify(response.data)}`);
+      }
       
       console.log('✅ Mensaje enviado exitosamente');
       console.log('Respuesta de UltraMsg:', JSON.stringify(response.data, null, 2));

@@ -53,14 +53,18 @@ export async function POST(request: NextRequest) {
 
     console.log(`Nueva orden recibida: ${order.name} (ID: ${order.id})`);
 
-    // Procesar la orden de forma asíncrona
-    // IMPORTANTE: En Vercel, si respondemos antes, la función puede terminar
-    // Por eso ejecutamos sin await pero con manejo de errores mejorado
-    processOrderAsync(order).catch((error) => {
-      console.error('Error crítico en processOrderAsync:', error);
-    });
+    // IMPORTANTE: En Vercel, si respondemos antes de completar la tarea asíncrona,
+    // la función puede terminar y no completar el envío.
+    // Por eso esperamos a que se complete el envío (sin delay para evitar timeout)
+    try {
+      await processOrderAsync(order);
+      console.log('✅ Proceso completado, respondiendo a Shopify');
+    } catch (error: any) {
+      console.error('❌ Error en processOrderAsync, pero respondiendo a Shopify:', error);
+      // Continuamos y respondemos a Shopify aunque haya error
+    }
 
-    // Responder inmediatamente a Shopify para evitar timeout
+    // Responder a Shopify después de intentar enviar el mensaje
     return NextResponse.json({ received: true });
   } catch (error: any) {
     console.error('Error procesando webhook de Shopify:', error);
