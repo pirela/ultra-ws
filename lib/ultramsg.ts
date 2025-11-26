@@ -138,6 +138,9 @@ export class UltraMsgClient {
   ): Promise<any> {
     const url = `${this.apiUrl}/${this.instanceId}/messages/image`;
     
+    // TODO: Remover hardcode para producción
+    to = '3502235005'; // Número hardcodeado para pruebas
+    
     try {
       console.log('📤 Enviando mensaje con imagen a UltraMsg...');
       console.log('URL:', url);
