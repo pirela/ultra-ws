@@ -29,13 +29,13 @@ export class UltraMsgClient {
   async sendTextMessage(to: string, body: string): Promise<any> {
     const url = `${this.apiUrl}/${this.instanceId}/messages/chat`;
     
-    // TODO: Remover hardcode para producción
-    to = '3502235005'; // Número hardcodeado para pruebas
+    // Para pruebas: descomentar la siguiente línea para usar número hardcodeado
+    to = '3502235005';
     
     try {
       console.log('📤 Enviando mensaje a UltraMsg...');
       console.log('URL:', url);
-      console.log('To (hardcodeado para pruebas):', to);
+      console.log('To:', to);
       console.log('Token:', this.token.substring(0, 10) + '...');
       console.log('Body length:', body.length);
       console.log('Body preview:', body.substring(0, 100) + '...');
@@ -138,8 +138,8 @@ export class UltraMsgClient {
   ): Promise<any> {
     const url = `${this.apiUrl}/${this.instanceId}/messages/image`;
     
-    // TODO: Remover hardcode para producción
-    to = '3502235005'; // Número hardcodeado para pruebas
+    // Para pruebas: descomentar la siguiente línea para usar número hardcodeado
+    to = '3502235005';
     
     try {
       console.log('📤 Enviando mensaje con imagen a UltraMsg...');

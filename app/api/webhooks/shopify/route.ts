@@ -9,7 +9,10 @@ import { delay, getConfiguredDelay } from '@/lib/delay';
 export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
-const SHOPIFY_WEBHOOK_SECRET = '41fe5a71c6fc5c1f35b740fb678cedb236c346a0a613a0e4b288093bc79cb659'; // TODO: Mover a variable de entorno
+// ⚠️ TODO IMPORTANTE PARA PRODUCCIÓN: Mover este secreto a variable de entorno en Vercel
+// Agregar SHOPIFY_WEBHOOK_SECRET en las variables de entorno de Vercel
+// y cambiar esta línea a: const SHOPIFY_WEBHOOK_SECRET = process.env.SHOPIFY_WEBHOOK_SECRET;
+const SHOPIFY_WEBHOOK_SECRET = '41fe5a71c6fc5c1f35b740fb678cedb236c346a0a613a0e4b288093bc79cb659';
 const STORE_NAME = process.env.STORE_NAME || 'Mi Tienda';
 
 /**
@@ -80,12 +83,9 @@ export async function POST(request: NextRequest) {
  */
 async function processOrderAsync(order: ShopifyOrder) {
   try {
-    // Obtener el delay configurado
-    const delayMinutes = getConfiguredDelay();
-    console.log(`Esperando ${delayMinutes} minuto(s) antes de enviar el mensaje...`);
-
-    // Aplicar delay
-    //await delay(delayMinutes);
+    // Aplicar delay de 30 segundos antes de enviar el mensaje
+    console.log('Esperando 30 segundos antes de enviar el mensaje...');
+    await new Promise(resolve => setTimeout(resolve, 30000)); // 30 segundos = 30000ms
 
     // Procesar la orden
     const processedOrder = processShopifyOrder(order);
@@ -101,13 +101,14 @@ async function processOrderAsync(order: ShopifyOrder) {
     // Inicializar cliente de UltraMsg
     console.log('🔧 Inicializando cliente UltraMsg...');
     const ultramsgClient = new UltraMsgClient();
+    /*
     console.log('✅ Cliente UltraMsg inicializado');
     console.log('📱 Teléfono del cliente:', processedOrder.customerPhone);
     console.log('🖼️ Tiene imagen:', !!processedOrder.productImage);
     console.log('🖼️ Tiene imagen2:', processedOrder.productImage);
     console.log('🖼️ Tiene imagen3:', JSON.stringify(processedOrder, null, 2));
     console.log('📝 Mensaje construido, longitud:', messageText.length);
-    
+    */
     // Enviar mensaje con imagen si está disponible
     if (processedOrder.productImage) {
       console.log(`📤 Enviando mensaje con imagen a ${processedOrder.customerPhone}`);
@@ -116,22 +117,24 @@ async function processOrderAsync(order: ShopifyOrder) {
         processedOrder.productImage,
         messageText
       );
-      console.log('✅ Resultado del envío con imagen:', JSON.stringify(result, null, 2));
+      //console.log('✅ Resultado del envío con imagen:', JSON.stringify(result, null, 2));
     } else {
-      console.log(`📤 Enviando mensaje de texto a ${processedOrder.customerPhone}`);
+      //console.log(`📤 Enviando mensaje de texto a ${processedOrder.customerPhone}`);
       const result = await ultramsgClient.sendTextMessage(
         processedOrder.customerPhone,
         messageText
       );
-      console.log('✅ Resultado del envío de texto:', JSON.stringify(result, null, 2));
+      //console.log('✅ Resultado del envío de texto:', JSON.stringify(result, null, 2));
     }
 
-    console.log(`✅✅✅ Mensaje enviado exitosamente para la orden ${processedOrder.orderNumber}`);
+    //console.log(`✅✅✅ Mensaje enviado exitosamente para la orden ${processedOrder.orderNumber}`);
   } catch (error: any) {
+    /*
     console.error('❌ Error procesando orden asíncronamente:');
     console.error('Error type:', error.constructor.name);
     console.error('Error message:', error.message);
     console.error('Error stack:', error.stack);
+    */
     if (error.response) {
       console.error('HTTP Status:', error.response.status);
       console.error('Response Data:', JSON.stringify(error.response.data));
