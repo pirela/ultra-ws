@@ -28,6 +28,7 @@ ${address}
 
 /**
  * Normaliza el número de teléfono agregando el código de país +57
+ * Valida si ya tiene +57 o empieza con 57 para no duplicarlo
  */
 export function normalizePhoneNumber(phone: string | null): string | null {
   if (!phone) return null;
@@ -35,12 +36,17 @@ export function normalizePhoneNumber(phone: string | null): string | null {
   // Remover espacios, guiones y paréntesis
   let cleaned = phone.replace(/[\s\-\(\)]/g, '');
   
-  // Si ya tiene código de país, removerlo
-  if (cleaned.startsWith('57')) {
-    cleaned = cleaned.substring(2);
+  // Si ya tiene +57, retornar tal cual (solo limpiado)
+  if (cleaned.startsWith('+57')) {
+    return cleaned;
   }
   
-  // Agregar +57 al inicio
+  // Si ya empieza con 57 (sin el +), agregar solo el +
+  if (cleaned.startsWith('57')) {
+    return `+${cleaned}`;
+  }
+  
+  // Si no tiene código de país, agregar +57
   return `+57${cleaned}`;
 }
 
