@@ -7,7 +7,7 @@ import { normalizePhoneNumber } from './message-builder';
  * Procesa una orden de Shopify y extrae la información necesaria
  */
 export function processShopifyOrder(order: ShopifyOrder): ProcessedOrder | null {
-  console.log("11111400")
+
   // Obtener nombre del cliente
   const customerName = order.customer?.first_name || 
                       order.shipping_address?.first_name || 

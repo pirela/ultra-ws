@@ -19,7 +19,9 @@ Este mensaje es para confirmar tu pedido con nosotros y consta de:
 ${productsList} por un valor de: *${order.total} ${order.currency}*
 
 Tus datos de envío son los siguientes:
-${address}`;
+${address}
+
+*¿Nos confirma su pedido?*`;
 
   return message;
 }
