@@ -4,6 +4,7 @@ import { verifyShopifyWebhook, processShopifyOrder } from '@/lib/shopify';
 import { buildWhatsAppMessage } from '@/lib/message-builder';
 import { UltraMsgClient } from '@/lib/ultramsg';
 import { delay, getConfiguredDelay } from '@/lib/delay';
+import { isOrderProcessed, markOrderAsProcessed } from '@/lib/checkout-tracker';
 
 // Configurar para evitar timeout en Vercel (máximo 60 segundos para funciones gratuitas)
 export const maxDuration = 60;
@@ -55,11 +56,20 @@ export async function POST(request: NextRequest) {
 
     console.log(`Nueva orden recibida: ${order.name} (ID: ${order.id})`);
 
+    // Verificar si ya procesamos esta orden (anti-spam)
+    const orderId = order.id.toString();
+    if (isOrderProcessed(orderId)) {
+      console.log(`Orden ${orderId} ya fue procesada, ignorando...`);
+      return NextResponse.json({ received: true, message: 'Orden ya procesada' });
+    }
+
     // IMPORTANTE: En Vercel, si respondemos antes de completar la tarea asíncrona,
     // la función puede terminar y no completar el envío.
     // Por eso esperamos a que se complete el envío (sin delay para evitar timeout)
     try {
       await processOrderAsync(order);
+      // Marcar como procesada después de enviar exitosamente
+      markOrderAsProcessed(orderId);
       console.log('✅ Proceso completado, respondiendo a Shopify');
     } catch (error: any) {
       console.error('❌ Error en processOrderAsync, pero respondiendo a Shopify:', error);
