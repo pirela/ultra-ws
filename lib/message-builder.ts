@@ -21,7 +21,7 @@ ${productsList} por un valor de: *${order.total} ${order.currency}*
 Tus datos de envío son los siguientes:
 ${address}
 
-*¿Nos confirma su pedido?*`;
+*¿Te gustaría completar tu compra? Estamos aquí para ayudarte 😊*`;
 
   return message;
 }
@@ -78,9 +78,7 @@ Total: *${total} ${currency}*`;
     message += `\n\nTus datos de envío son los siguientes:\n${shippingAddress}`;
   }
 
-  message += `\n\n¿Te gustaría completar tu compra? Estamos aquí para ayudarte 😊
-
-*¿Nos confirma su pedido?*`;
+  message += `\n\n*¿Te gustaría completar tu compra? Estamos aquí para ayudarte 😊*`;
 
   return message;
 }
