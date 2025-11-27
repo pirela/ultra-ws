@@ -97,14 +97,15 @@ async function processAbandonedCheckout(checkout: ShopifyAbandonedCheckout) {
       }
     }
 
-    // Construir mensaje
+    // Construir mensaje (pasar también el objeto de dirección para validación)
     const message = buildAbandonedCheckoutMessage(
       customerName,
       products,
       checkout.total_price,
       checkout.currency,
       STORE_NAME,
-      shippingAddress
+      shippingAddress,
+      checkout.billing_address
     );
 
     // Enviar mensaje de WhatsApp

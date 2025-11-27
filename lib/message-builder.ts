@@ -21,7 +21,7 @@ ${productsList} por un valor de: *${order.total} ${order.currency}*
 Tus datos de envío son los siguientes:
 ${address}
 
-*¿Te gustaría completar tu compra? Estamos aquí para ayudarte 😊*`;
+*¿Nos confirma su pedido?*`;
 
   return message;
 }
@@ -51,6 +51,30 @@ export function normalizePhoneNumber(phone: string | null): string | null {
 }
 
 /**
+ * Valida si una dirección está completa (tiene todos los campos necesarios)
+ * Nota: Ignora country, zip y address2 (address2 es opcional)
+ * Solo valida address1, city y province
+ */
+function isAddressComplete(address: {
+  address1?: string | null;
+  address2?: string | null;
+  city?: string | null;
+  province?: string | null;
+  country?: string | null;
+  zip?: string | null;
+} | null): boolean {
+  if (!address) return false;
+  
+  // Validar solo los campos principales (ignorando country, zip y address2)
+  // address2 es opcional y no se valida
+  return !!(
+    address.address1 &&
+    address.city &&
+    address.province
+  );
+}
+
+/**
  * Construye el mensaje de WhatsApp para carrito abandonado
  */
 export function buildAbandonedCheckoutMessage(
@@ -59,7 +83,14 @@ export function buildAbandonedCheckoutMessage(
   total: string,
   currency: string,
   storeName: string,
-  shippingAddress?: string | null
+  shippingAddress?: string | null,
+  addressObject?: {
+    address1?: string | null;
+    city?: string | null;
+    province?: string | null;
+    country?: string | null;
+    zip?: string | null;
+  } | null
 ): string {
   // Construir lista de productos
   const productsList = products
@@ -73,8 +104,11 @@ ${productsList}
 
 Total: *${total} ${currency}*`;
 
-  // Agregar dirección si está disponible
-  if (shippingAddress && shippingAddress !== 'No especificada') {
+  // Agregar dirección solo si está completa (todos los campos)
+  if (shippingAddress && 
+      shippingAddress !== 'No especificada' && 
+      addressObject && 
+      isAddressComplete(addressObject)) {
     message += `\n\nTus datos de envío son los siguientes:\n${shippingAddress}`;
   }
 
