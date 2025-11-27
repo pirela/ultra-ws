@@ -50,3 +50,32 @@ export function normalizePhoneNumber(phone: string | null): string | null {
   return `+57${cleaned}`;
 }
 
+/**
+ * Construye el mensaje de WhatsApp para carrito abandonado
+ */
+export function buildAbandonedCheckoutMessage(
+  customerName: string,
+  products: { name: string; quantity: number }[],
+  total: string,
+  currency: string,
+  storeName: string
+): string {
+  // Construir lista de productos
+  const productsList = products
+    .map(p => `*${p.quantity} x ${p.name}*`)
+    .join('\n');
+
+  // Construir mensaje
+  const message = `👋 Hola ${customerName}, vimos que dejaste productos en tu carrito en *${storeName}*
+
+${productsList}
+
+Total: *${total} ${currency}*
+
+¿Te gustaría completar tu compra? Estamos aquí para ayudarte 😊
+
+*¿Nos confirma su pedido?*`;
+
+  return message;
+}
+

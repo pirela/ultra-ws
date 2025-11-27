@@ -79,3 +79,22 @@ export interface ProcessedOrder {
   productImage: string | null;
 }
 
+// Tipos para checkout abandonado
+export interface ShopifyAbandonedCheckout {
+  id: number;
+  email: string | null;
+  phone: string | null;
+  created_at: string;
+  updated_at: string;
+  total_price: string;
+  currency: string;
+  line_items: ShopifyLineItem[];
+  customer: {
+    first_name: string;
+    last_name: string;
+    email: string;
+    phone: string | null;
+  } | null;
+  billing_address: ShopifyAddress | null;
+}
+
