@@ -58,21 +58,27 @@ export function buildAbandonedCheckoutMessage(
   products: { name: string; quantity: number }[],
   total: string,
   currency: string,
-  storeName: string
+  storeName: string,
+  shippingAddress?: string | null
 ): string {
   // Construir lista de productos
   const productsList = products
     .map(p => `*${p.quantity} x ${p.name}*`)
     .join('\n');
 
-  // Construir mensaje
-  const message = `👋 Hola ${customerName}, vimos que dejaste productos en tu carrito en *${storeName}*
+  // Construir mensaje base
+  let message = `👋 Hola ${customerName}, vimos que dejaste productos en tu carrito en *${storeName}*
 
 ${productsList}
 
-Total: *${total} ${currency}*
+Total: *${total} ${currency}*`;
 
-¿Te gustaría completar tu compra? Estamos aquí para ayudarte 😊
+  // Agregar dirección si está disponible
+  if (shippingAddress && shippingAddress !== 'No especificada') {
+    message += `\n\nTus datos de envío son los siguientes:\n${shippingAddress}`;
+  }
+
+  message += `\n\n¿Te gustaría completar tu compra? Estamos aquí para ayudarte 😊
 
 *¿Nos confirma su pedido?*`;
 

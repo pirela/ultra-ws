@@ -79,13 +79,32 @@ async function processAbandonedCheckout(checkout: ShopifyAbandonedCheckout) {
       quantity: item.quantity,
     }));
 
+    // Construir dirección de envío si está disponible
+    let shippingAddress = 'No especificada';
+    if (checkout.billing_address) {
+      const addr = checkout.billing_address;
+      const parts = [
+        addr.address1,
+        addr.address2,
+        addr.city,
+        addr.province,
+        addr.country,
+        addr.zip,
+      ].filter(Boolean);
+      
+      if (parts.length > 0) {
+        shippingAddress = parts.join(', ');
+      }
+    }
+
     // Construir mensaje
     const message = buildAbandonedCheckoutMessage(
       customerName,
       products,
       checkout.total_price,
       checkout.currency,
-      STORE_NAME
+      STORE_NAME,
+      shippingAddress
     );
 
     // Enviar mensaje de WhatsApp
