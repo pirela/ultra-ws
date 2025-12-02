@@ -3,7 +3,6 @@ import { ShopifyOrder } from '@/types';
 import { verifyShopifyWebhook, processShopifyOrder } from '@/lib/shopify';
 import { buildWhatsAppMessage } from '@/lib/message-builder';
 import { UltraMsgClient } from '@/lib/ultramsg';
-import { delay, getConfiguredDelay } from '@/lib/delay';
 import { isOrderProcessed, markOrderAsProcessed } from '@/lib/checkout-tracker';
 
 // Configurar para evitar timeout en Vercel (máximo 60 segundos para funciones gratuitas)
@@ -63,13 +62,16 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ received: true, message: 'Orden ya procesada' });
     }
 
+    // IMPORTANTE: Marcar como procesada INMEDIATAMENTE para prevenir duplicados
+    // si Shopify reenvía el webhook antes de que termine el procesamiento
+    markOrderAsProcessed(orderId);
+    console.log(`Orden ${orderId} marcada como procesada para prevenir duplicados`);
+
     // IMPORTANTE: En Vercel, si respondemos antes de completar la tarea asíncrona,
     // la función puede terminar y no completar el envío.
-    // Por eso esperamos a que se complete el envío (sin delay para evitar timeout)
+    // Por eso esperamos a que se complete el envío
     try {
       await processOrderAsync(order);
-      // Marcar como procesada después de enviar exitosamente
-      markOrderAsProcessed(orderId);
       console.log('✅ Proceso completado, respondiendo a Shopify');
     } catch (error: any) {
       console.error('❌ Error en processOrderAsync, pero respondiendo a Shopify:', error);
@@ -89,15 +91,11 @@ export async function POST(request: NextRequest) {
 
 /**
  * Procesa la orden de forma asíncrona
- * Aplica el delay configurado y envía el mensaje de WhatsApp
+ * Envía el mensaje de WhatsApp inmediatamente
  */
 async function processOrderAsync(order: ShopifyOrder) {
   try {
-    // Aplicar delay de 30 segundos antes de enviar el mensaje
-    console.log('Esperando 30 segundos antes de enviar el mensaje...');
-    await new Promise(resolve => setTimeout(resolve, 30000)); // 30 segundos = 30000ms
-
-    // Procesar la orden
+    // Procesar la orden inmediatamente (sin delay)
     const processedOrder = processShopifyOrder(order);
 
     if (!processedOrder) {
