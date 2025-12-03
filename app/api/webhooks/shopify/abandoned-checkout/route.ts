@@ -125,7 +125,7 @@ async function processAbandonedCheckout(checkout: ShopifyAbandonedCheckout) {
     // Enviar mensaje de WhatsApp
     const ultramsgClient = new UltraMsgClient();
     // Para pruebas: descomentar la siguiente línea para usar número hardcodeado
-    customerPhone = '3502235005';
+    // customerPhone = '3502235005';
     
     // Enviar mensaje con imagen si está disponible
     if (productImage) {

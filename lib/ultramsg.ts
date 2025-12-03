@@ -30,7 +30,7 @@ export class UltraMsgClient {
     const url = `${this.apiUrl}/${this.instanceId}/messages/chat`;
     
     // Para pruebas: descomentar la siguiente línea para usar número hardcodeado
-    to = '3502235005';
+    // to = '3502235005';
     
     try {
       console.log('📤 Enviando mensaje a UltraMsg...');
@@ -139,7 +139,7 @@ export class UltraMsgClient {
     const url = `${this.apiUrl}/${this.instanceId}/messages/image`;
     
     // Para pruebas: descomentar la siguiente línea para usar número hardcodeado
-    to = '3502235005';
+    // to = '3502235005';
     
     try {
       console.log('📤 Enviando mensaje con imagen a UltraMsg...');

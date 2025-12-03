@@ -1,6 +1,19 @@
 import { ProcessedOrder } from '@/types';
 
 /**
+ * Formatea un valor monetario con separadores de miles (punto) y sin decimales
+ * @param value - Valor como string (ej: "50000.00")
+ * @returns Valor formateado (ej: "50.000")
+ */
+export function formatCurrency(value: string): string {
+  // Convertir a número y redondear (eliminar decimales)
+  const numValue = Math.round(parseFloat(value));
+  
+  // Formatear con separadores de miles usando punto
+  return numValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+}
+
+/**
  * Construye el mensaje de WhatsApp con el formato especificado
  */
 export function buildWhatsAppMessage(order: ProcessedOrder, storeName: string): string {
@@ -12,11 +25,14 @@ export function buildWhatsAppMessage(order: ProcessedOrder, storeName: string): 
   // Construir dirección completa
   const address = order.shippingAddress || 'No especificada';
 
+  // Formatear el total con separadores de miles
+  const formattedTotal = formatCurrency(order.total);
+
   // Construir mensaje
   const message = `👋 Hola ${order.customerName}, gracias por tu compra en *${storeName}*
 
 Este mensaje es para confirmar tu pedido con nosotros y consta de:
-${productsList} por un valor de: *${order.total} ${order.currency}*
+${productsList} por un valor de: *${formattedTotal} ${order.currency}*
 
 Tus datos de envío son los siguientes:
 ${address}
@@ -97,12 +113,15 @@ export function buildAbandonedCheckoutMessage(
     .map(p => `*${p.quantity} x ${p.name}*`)
     .join('\n');
 
+  // Formatear el total con separadores de miles
+  const formattedTotal = formatCurrency(total);
+
   // Construir mensaje base
   let message = `👋 Hola ${customerName}, vimos que dejaste productos en tu carrito en *${storeName}*
 
 ${productsList}
 
-Total: *${total} ${currency}*`;
+Total: *${formattedTotal} ${currency}*`;
 
   // Agregar dirección solo si está completa (todos los campos)
   if (shippingAddress && 
