@@ -4,6 +4,7 @@ import { verifyShopifyWebhook } from '@/lib/shopify';
 import { normalizePhoneNumber, buildAbandonedCheckoutMessage } from '@/lib/message-builder';
 import { UltraMsgClient } from '@/lib/ultramsg';
 import { isCheckoutProcessed, markCheckoutAsProcessed } from '@/lib/checkout-tracker';
+import { getProductImage } from '@/lib/product-mapping';
 
 export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
@@ -50,6 +51,11 @@ async function processAbandonedCheckout(checkout: ShopifyAbandonedCheckout) {
       return;
     }
 
+    // IMPORTANTE: Marcar como procesado INMEDIATAMENTE para prevenir duplicados
+    // si Shopify reenvía el webhook antes de que termine el procesamiento
+    markCheckoutAsProcessed(checkoutId);
+    console.log(`Checkout ${checkoutId} marcado como procesado para prevenir duplicados`);
+
     // Obtener información del cliente
     const customerName = checkout.customer?.first_name || 
                         checkout.billing_address?.first_name || 
@@ -78,6 +84,14 @@ async function processAbandonedCheckout(checkout: ShopifyAbandonedCheckout) {
       name: item.title,
       quantity: item.quantity,
     }));
+
+    // Obtener el primer producto para la imagen
+    const firstProduct = checkout.line_items[0];
+    const productImage = getProductImage(
+      firstProduct.title,
+      firstProduct.sku,
+      firstProduct.image
+    );
 
     // Construir dirección de envío si está disponible
     let shippingAddress = 'No especificada';
@@ -112,10 +126,19 @@ async function processAbandonedCheckout(checkout: ShopifyAbandonedCheckout) {
     const ultramsgClient = new UltraMsgClient();
     // Para pruebas: descomentar la siguiente línea para usar número hardcodeado
     customerPhone = '3502235005';
-    await ultramsgClient.sendTextMessage(customerPhone, message);
     
-    // Marcar como procesado
-    markCheckoutAsProcessed(checkoutId);
+    // Enviar mensaje con imagen si está disponible
+    if (productImage) {
+      console.log(`📤 Enviando mensaje con imagen a ${customerPhone}`);
+      await ultramsgClient.sendImageMessage(
+        customerPhone,
+        productImage,
+        message
+      );
+    } else {
+      console.log(`📤 Enviando mensaje de texto a ${customerPhone}`);
+      await ultramsgClient.sendTextMessage(customerPhone, message);
+    }
     
     console.log(`✅ Mensaje de carrito abandonado enviado a ${customerPhone} para checkout ${checkoutId}`);
   } catch (error: any) {
