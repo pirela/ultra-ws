@@ -12,9 +12,9 @@ export default function Home() {
       <div style={{ marginTop: '2rem', padding: '1rem', background: '#f5f5f5', borderRadius: '8px' }}>
         <h2>Endpoints disponibles:</h2>
         <ul>
-          <li><strong>POST /api/webhooks/shopify</strong> - Recibe órdenes de Shopify</li>
-          <li><strong>POST /api/webhooks/ultramsg</strong> - Recibe mensajes de WhatsApp</li>
-          <li><strong>POST /api/send-message</strong> - Envía mensajes de prueba</li>
+          <li><strong>POST /api/webhooks/shopify</strong> - Recibe órdenes de Shopify.</li>
+          <li><strong>POST /api/webhooks/ultramsg</strong> - Recibe mensajes de WhatsApp.</li>
+          <li><strong>POST /api/send-message</strong> - Envía mensajes de prueba.</li>
         </ul>
       </div>
 
