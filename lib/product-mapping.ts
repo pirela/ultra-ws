@@ -15,7 +15,9 @@ export const productImageMap: Record<string, string> = {
   "Pulpo Interactivo Led Musical Bailarín 🧒🏻 🎶": "https://wendysoutle.shop/cdn/shop/files/pulpo4.webp",
   "Proyector Palante DinoEgg Galaxia con Control 🌌" :"https://wendysoutle.shop/cdn/shop/files/ChatGPTImage21nov2025_03_53_22p.m..webp",
   "Vanity Espejo Led Para Carro Recargable 🪞 💗": "https://wendysoutle.shop/cdn/shop/files/portada01.webp",
-  "🎧 Auriculares Inteligentes con Pantalla LED – Control total en tus manos🎧": "https://wendysoutle.shop/cdn/shop/files/ChatGPT_Image_29_sept_2025_05_32_21_p.m..webp"
+  "🎧 Auriculares Inteligentes con Pantalla LED – Control total en tus manos🎧": "https://wendysoutle.shop/cdn/shop/files/ChatGPT_Image_29_sept_2025_05_32_21_p.m..webp",
+  "Pato Interactivo Led Musical Bailarín 🧒🏻 🎶": "https://wendysoutle.shop/cdn/shop/files/ChatGPTImage2dic2025_05_31_11p.m..webp",
+  "🔥  1 Pistola Hidrogel + 🎁 1 Pistola Manual de Regalo + 💥 10.000 Orbes Incluidos": "https://wendysoutle.shop/cdn/shop/files/goon1.webp",
   // Ejemplo: 'SKU-DEL-PRODUCTO': 'https://url-de-la-imagen.jpg',
   // Ejemplo: 'NOMBRE-DEL-PRODUCTO': 'https://url-de-la-imagen.jpg',
 }
