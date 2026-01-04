@@ -12,10 +12,12 @@
  */
 
 export const productImageMap: Record<string, string> = {
+  "Audifonos con cancelacion de ruido": "https://v3azpg-1h.myshopify.com/cdn/shop/files/pods02.webp",
+  "Vanity Espejo Led Para Carro Recargable 🪞 💗": "https://v3azpg-1h.myshopify.com/cdn/shop/files/portada01.webp",
+  "🎧 Auriculares Inteligentes con Pantalla LED – Control total en tus manos🎧": "https://v3azpg-1h.myshopify.com/cdn/shop/files/ChatGPT_Image_29_sept_2025_05_32_21_p.m._4b6b899c-33f1-4444-92f0-f7ca116475c4.webp",
+
   "Pulpo Interactivo Led Musical Bailarín 🧒🏻 🎶": "https://wendysoutle.shop/cdn/shop/files/pulpo4.webp",
   "Proyector Palante DinoEgg Galaxia con Control 🌌" :"https://wendysoutle.shop/cdn/shop/files/ChatGPTImage21nov2025_03_53_22p.m..webp",
-  "Vanity Espejo Led Para Carro Recargable 🪞 💗": "https://wendysoutle.shop/cdn/shop/files/portada01.webp",
-  "🎧 Auriculares Inteligentes con Pantalla LED – Control total en tus manos🎧": "https://wendysoutle.shop/cdn/shop/files/ChatGPT_Image_29_sept_2025_05_32_21_p.m..webp",
   "Pato Interactivo Led Musical Bailarín 🧒🏻 🎶": "https://wendysoutle.shop/cdn/shop/files/ChatGPTImage2dic2025_05_31_11p.m..webp",
   "🔥  1 Pistola Hidrogel + 🎁 1 Pistola Manual de Regalo + 💥 10.000 Orbes Incluidos": "https://wendysoutle.shop/cdn/shop/files/goon1.webp",
   // Ejemplo: 'SKU-DEL-PRODUCTO': 'https://url-de-la-imagen.jpg',
