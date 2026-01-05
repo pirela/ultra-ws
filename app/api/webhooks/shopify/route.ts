@@ -34,6 +34,9 @@ export async function POST(request: NextRequest) {
     const signature = request.headers.get('x-shopify-hmac-sha256');
 
     // Verificar la firma del webhook
+    console.log('signature', signature);
+    console.log('SHOPIFY_WEBHOOK_SECRET', SHOPIFY_WEBHOOK_SECRET);
+    console.log('body', body);
     if (signature && !verifyShopifyWebhook(body, signature, SHOPIFY_WEBHOOK_SECRET)) {
       console.error('Firma del webhook inválida');
       return NextResponse.json(
