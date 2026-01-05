@@ -12,8 +12,10 @@ export const dynamic = 'force-dynamic';
 // ⚠️ TODO IMPORTANTE PARA PRODUCCIÓN: Mover este secreto a variable de entorno en Vercel
 // Agregar SHOPIFY_WEBHOOK_SECRET en las variables de entorno de Vercel
 // y cambiar esta línea a: const SHOPIFY_WEBHOOK_SECRET = process.env.SHOPIFY_WEBHOOK_SECRET;
-const SHOPIFY_WEBHOOK_SECRET = '41fe5a71c6fc5c1f35b740fb678cedb236c346a0a613a0e4b288093bc79cb659';
+const SHOPIFY_WEBHOOK_SECRET = process.env.SHOPIFY_WEBHOOK_SECRET || '3ea2bf63432e5fb4a04c6cee9b67a5b77f0fddc6446fadfee5ee255c270f2eeb';
 const STORE_NAME = process.env.STORE_NAME || 'Mi Tienda';
+//const SHOPIFY_WEBHOOK_SECRET = '41fe5a71c6fc5c1f35b740fb678cedb236c346a0a613a0e4b288093bc79cb659';
+//const STORE_NAME = process.env.STORE_NAME || 'Mi Tienda';
 
 /**
  * Webhook de Shopify para recibir nuevas órdenes
