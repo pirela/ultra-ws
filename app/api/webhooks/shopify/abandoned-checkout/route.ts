@@ -9,7 +9,7 @@ import { getProductImage } from '@/lib/product-mapping';
 export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
-const SHOPIFY_WEBHOOK_SECRET = process.env.SHOPIFY_WEBHOOK_SECRET || '41fe5a71c6fc5c1f35b740fb678cedb236c346a0a613a0e4b288093bc79cb659';
+const SHOPIFY_WEBHOOK_SECRET = process.env.SHOPIFY_WEBHOOK_SECRET || '3ea2bf63432e5fb4a04c6cee9b67a5b77f0fddc6446fadfee5ee255c270f2eeb';
 const STORE_NAME = process.env.STORE_NAME || 'Mi Tienda';
 
 /**
