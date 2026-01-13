@@ -47,4 +47,3 @@ export function markOrderAsProcessed(orderId: string): void {
   
   processedOrders.add(orderId);
 }
-

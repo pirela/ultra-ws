@@ -20,8 +20,9 @@ export const productImageMap: Record<string, string> = {
   "Proyector Palante DinoEgg Galaxia con Control 🌌" :"https://wendysoutle.shop/cdn/shop/files/ChatGPTImage21nov2025_03_53_22p.m..webp",
   "Pato Interactivo Led Musical Bailarín 🧒🏻 🎶": "https://wendysoutle.shop/cdn/shop/files/ChatGPTImage2dic2025_05_31_11p.m..webp",
   "🔥  1 Pistola Hidrogel + 🎁 1 Pistola Manual de Regalo + 💥 10.000 Orbes Incluidos": "https://wendysoutle.shop/cdn/shop/files/goon1.webp",
-  // Ejemplo: 'SKU-DEL-PRODUCTO': 'https://url-de-la-imagen.jpg',
-  // Ejemplo: 'NOMBRE-DEL-PRODUCTO': 'https://url-de-la-imagen.jpg',
+  "Set de Utensilios Para Cocina 19 Piezas 👩🏻‍🍳": "https://v3azpg-1h.myshopify.com/cdn/shop/files/Copia-de-Sin-titulo-63.jpg",
+  "Diademas AirpodMax 🎧 + Estuche Exclusivo de Regalo🎁": "https://v3azpg-1h.myshopify.com/cdn/shop/files/ChatGPTImage9ene2026_06_54_59.webp",
+  "Pack x6 Tangas CK Premium – ¡Llévate las 6 por solo $69.900!": "https://v3azpg-1h.myshopify.com/cdn/shop/files/Agregaruntitulo.webp",
 }
 
 /**
